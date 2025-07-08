@@ -14,6 +14,8 @@ use DB;
 use App\Models\Users\Subjects;
 use App\Models\Users\User;
 
+use App\Http\Requests\RegisterUserRequest; // バリデーション
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -35,15 +37,19 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(RegisterUserRequest $request)
     {
         DB::beginTransaction();
         try{
             $old_year = $request->old_year;
             $old_month = $request->old_month;
             $old_day = $request->old_day;
-            $data = $old_year . '-' . $old_month . '-' . $old_day;
-            $birth_day = date('Y-m-d', strtotime($data));
+
+            if (!checkdate($old_month, $old_day, $old_year)) {
+                return back()->withErrors(['birth_day' => '正しい日付を入力してください'])->withInput();
+            }
+            $birth_day = sprintf('%04d-%02d-%02d', $old_year, $old_month, $old_day);
+
             $subjects = $request->subject;
 
             $user_get = User::create([
