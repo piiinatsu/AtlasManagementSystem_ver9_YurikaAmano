@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Carbon;
 
 class RegisterUserRequest extends FormRequest
 {
@@ -29,13 +31,38 @@ class RegisterUserRequest extends FormRequest
             'over_name_kana' => ['required', 'string', 'regex:/^[ァ-ヶー　]+$/u', 'max:30'],
             'under_name_kana' => ['required', 'string', 'regex:/^[ァ-ヶー　]+$/u', 'max:30'],
             'mail_address' => ['required', 'string', 'email', 'max:100', 'unique:users,mail_address'],
-            'sex' => ['required', 'in:1,2,3'],
+            'sex' => ['required', Rule::in([1, 2, 3])],
             'old_year' => ['required', 'integer', 'min:2000'],
-            'old_month' => ['required', 'regex:/^(0[1-9]|1[0-2])$/'],
-            'old_day' => ['required', 'regex:/^(0[1-9]|[12][0-9]|3[01])$/'],
-            'role' => ['required', 'in:1,2,3,4'],
+            'old_month' => ['required', 'string'],
+            'old_day' => ['required', 'string'],
+            'role' => ['required', Rule::in([1, 2, 3, 4])],
             'password' => ['required', 'string', 'min:8', 'max:30', 'confirmed'],
         ];
+    }
+
+    // 生年月日（年・月・日）を3つの入力から受け取って、正しい日付かどうかチェックする
+    // さらに2000年1月1日〜今日の範囲内かをチェックする
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $year = $this->input('old_year');
+            $month = $this->input('old_month');
+            $day = $this->input('old_day');
+
+            // 月や日が "01" のような文字列でも数値としてチェック
+            if (!checkdate((int)$month, (int)$day, (int)$year)) {
+                $validator->errors()->add('birth_day', '正しい日付を入力してください');
+                return;
+            }
+
+            // 例2000-01-01
+            $birth_date = sprintf('%04d-%02d-%02d', $year, $month, $day);
+            $birth = Carbon::createFromFormat('Y-m-d', $birth_date);
+
+            if ($birth->lt(Carbon::create(2000, 1, 1)) || $birth->gt(Carbon::today())) {
+                $validator->errors()->add('birth_day', '2000年1月1日から今日までの範囲で入力してください');
+            }
+        });
     }
 
     public function messages()

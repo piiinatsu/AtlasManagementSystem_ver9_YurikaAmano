@@ -45,9 +45,6 @@ class RegisteredUserController extends Controller
             $old_month = $request->old_month;
             $old_day = $request->old_day;
 
-            if (!checkdate($old_month, $old_day, $old_year)) {
-                return back()->withErrors(['birth_day' => '正しい日付を入力してください'])->withInput();
-            }
             $birth_day = sprintf('%04d-%02d-%02d', $old_year, $old_month, $old_day);
 
             $subjects = $request->subject;
