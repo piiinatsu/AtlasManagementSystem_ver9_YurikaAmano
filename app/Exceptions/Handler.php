@@ -65,6 +65,6 @@ class Handler extends ExceptionHandler
         }
 
         // 通常のブラウザアクセスならログインページへリダイレクト
-        return redirect()->route('loginView');
+        return redirect()->route('login');
     }
 }
