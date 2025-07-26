@@ -14,6 +14,8 @@ class MainCategory extends Model
 
     public function subCategories(){
         // リレーションの定義
+        // MainCategory（1）:SubCategory（多）
+        return $this->hasMany(SubCategory::class);
     }
 
 }

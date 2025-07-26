@@ -14,6 +14,8 @@ class SubCategory extends Model
     ];
     public function mainCategory(){
         // リレーションの定義
+        // SubCategory（1）:MainCategory（1）
+        return $this->belongsTo(MainCategory::class);
     }
 
     public function posts(){
