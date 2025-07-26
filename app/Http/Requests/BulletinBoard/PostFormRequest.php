@@ -3,6 +3,7 @@
 namespace App\Http\Requests\BulletinBoard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PostFormRequest extends FormRequest
 {
@@ -24,6 +25,10 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'post_category_id' => [
+                'required',
+                Rule::exists('sub_categories', 'id'), // 入力されたカテゴリーIDが、sub_categoriesテーブルのidに存在しているか
+            ],
             'post_title' => 'required|string|max:100',
             'post_body' => 'required|string|max:2000',
         ];
