@@ -7,12 +7,32 @@
           <div>
           </div>
           <div>
-            <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
+            <!-- 自分の投稿にだけ表示 -->
+            @if(Auth::id() === $post->user_id)
+              <span class="edit-modal-open"
+                post_title="{{ $post->post_title }}"
+                post_body="{{ $post->post }}"
+                post_id="{{ $post->id }}">編集</span>
+              <!-- ボタン：削除モーダル（確認してから消す） -->
+              <span class="delete-modal-open text-primary"
+                data-id="{{ $post->id }}">削除</span>
+                <!-- 削除する投稿IDをJavaScriptに渡す -->
+            @endif
           </div>
         </div>
 
         <div class="contributor d-flex">
+          <!-- エラーメッセージの表示 -->
+          @if ($errors->any())
+            <div class="alert alert-danger mb-2">
+              <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
+          <br>
           <p>
             <span>{{ $post->user->over_name }}</span>
             <span>{{ $post->user->under_name }}</span>
@@ -51,6 +71,7 @@
     </div>
   </div>
 </div>
+<!-- 編集モーダル -->
 <div class="modal js-modal">
   <div class="modal__bg js-modal-close"></div>
   <div class="modal__content">
@@ -70,6 +91,16 @@
       </div>
       {{ csrf_field() }}
     </form>
+  </div>
+</div>
+<!-- 削除モーダル -->
+<div class="modal js-delete-modal">
+  <div class="modal__bg js-modal-close"></div>
+  <div class="modal__content">
+    <div class="p-4 text-center">
+      <a href="#" class="btn btn-danger" id="deleteConfirmBtn">削除する</a>
+      <a class="js-modal-close btn btn-secondary ml-3" href="#">キャンセル</a>
+    </div>
   </div>
 </div>
 </x-sidebar>

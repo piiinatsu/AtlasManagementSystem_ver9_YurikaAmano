@@ -175,6 +175,10 @@ li {
   cursor: pointer;
 }
 
+.delete-modal-open {
+  cursor: pointer;
+}
+
 .modal-inner-body textarea {
   height: 150px;
   resize: none;

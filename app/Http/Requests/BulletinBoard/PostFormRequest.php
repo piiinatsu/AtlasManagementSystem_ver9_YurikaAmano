@@ -24,14 +24,20 @@ class PostFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'post_category_id' => [
-                'required',
-                Rule::exists('sub_categories', 'id'), // 入力されたカテゴリーIDが、sub_categoriesテーブルのidに存在しているか
-            ],
+        $rules = [
             'post_title' => 'required|string|max:100',
             'post_body' => 'required|string|max:2000',
         ];
+
+        // 投稿作成時のみ(編集時除く)、カテゴリーのバリデーションを追加
+        if ($this->routeIs('post.create')) {
+            $rules['post_category_id'] = [
+                'required',
+                Rule::exists('sub_categories', 'id'),
+            ];
+        }
+
+        return $rules;
     }
 
     public function messages(){
