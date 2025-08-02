@@ -38,13 +38,37 @@
   @can('admin')
   <div class="w-25 ml-auto mr-auto">
     <div class="category_area mt-5 p-5">
-      <div class="">
-        <p class="m-0">メインカテゴリー</p>
-        <input type="text" class="w-100" name="main_category_name" form="mainCategoryRequest">
-        <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="mainCategoryRequest">
-      </div>
+      <!-- メインカテゴリー追加 -->
+      <form action="{{ route('main.category.create') }}" method="post">{{ csrf_field() }}
+        <div class="">
+          <p class="m-0">メインカテゴリー</p>
+          <input type="text" class="w-100" name="main_category_name">
+          <input type="submit" value="追加" class="w-100 btn btn-primary p-0">
+        </div>
+      </form>
       <!-- サブカテゴリー追加 -->
-      <form action="{{ route('main.category.create') }}" method="post" id="mainCategoryRequest">{{ csrf_field() }}</form>
+      <form action="{{ route('sub.category.create') }}" method="post">{{ csrf_field() }}
+        <div class="">
+          <p class="m-0">サブカテゴリー</p>
+          <select name="main_category_id" class="w-100">
+            @foreach($main_categories as $main)
+              <option value="{{ $main->id }}">{{ $main->main_category }}</option>
+            @endforeach
+          </select>
+          <input type="text" class="w-100" name="sub_category">
+          <input type="submit" value="追加" class="w-100 btn btn-primary p-0">
+        </div>
+      </form>
+      <!-- エラーメッセージ -->
+      @if ($errors->any())
+        <div class="alert alert-danger mt-3">
+          <ul class="pl-3 mb-0">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
     </div>
   </div>
   @endcan
