@@ -11,6 +11,7 @@ use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
 use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
+use App\Http\Requests\BulletinBoard\CommentFormRequest;
 use Auth;
 
 class PostsController extends Controller
@@ -38,6 +39,12 @@ class PostsController extends Controller
             ->withCount('likes')
             ->where('user_id', Auth::id())->get();
         }
+
+        // 各投稿のコメント数を取得して繰り返す
+        foreach ($posts as $post) {
+            $post->comment_count = $post->commentCounts($post->id)->count();
+        }
+
         return view('authenticated.bulletinboard.posts', compact('posts', 'categories', 'like', 'post_comment'));
     }
 
@@ -77,7 +84,7 @@ class PostsController extends Controller
         return redirect()->route('post.input');
     }
 
-    public function commentCreate(Request $request){
+    public function commentCreate(CommentFormRequest $request){
         PostComment::create([
             'post_id' => $request->post_id,
             'user_id' => Auth::id(),
