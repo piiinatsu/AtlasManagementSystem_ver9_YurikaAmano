@@ -43,7 +43,10 @@
       </div>
       <div>
         @if($user->role == 4)
-        <span>選択科目 :</span>
+          <span>選択科目 :</span>
+          <span>
+            {{ $user->subjects->pluck('subject')->join('、') ?: '未登録' }}
+          </span>
         @endif
       </div>
     </div>
