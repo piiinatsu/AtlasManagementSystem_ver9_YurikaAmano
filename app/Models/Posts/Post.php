@@ -25,6 +25,14 @@ class Post extends Model
 
     public function subCategories(){
         // リレーションの定義
+        return $this->hasOneThrough(
+            \App\Models\Categories\SubCategory::class, // 最終的にたどり着きたいモデル（サブカテゴリ）
+            \App\Models\Posts\PostSubCategory::class,  // 間にある中間テーブルのモデル
+            'post_id',        // 中間テーブルにある「投稿のID」
+            'id',             // サブカテゴリテーブルの主キー
+            'id',             // 投稿テーブルの主キー
+            'sub_category_id' // 中間テーブルにある「サブカテゴリID」
+        );
     }
 
     // コメント数

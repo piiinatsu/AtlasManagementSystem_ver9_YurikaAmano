@@ -9,6 +9,7 @@ use App\Models\Categories\SubCategory;
 use App\Models\Posts\Post;
 use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
+use App\Models\Posts\PostSubCategory;
 use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
 use App\Http\Requests\BulletinBoard\CommentFormRequest;
@@ -19,30 +20,48 @@ use Auth;
 class PostsController extends Controller
 {
     public function show(Request $request){
-        $posts = Post::with('user', 'postComments')->withCount('likes')->get();
-        $categories = MainCategory::get();
+        $posts = Post::with('user', 'postComments', 'subCategories')->withCount('likes')->get();
+        // メインカテゴリごとに紐づいたサブカテゴリを取得する
+        $categories = MainCategory::with('subCategories')->get();
         $like = new Like;
         $post_comment = new Post;
+        // ①キーワード検索がある場合（タイトル・本文：部分一致、サブカテゴリ：完全一致）
         if(!empty($request->keyword)){
-            $posts = Post::with('user', 'postComments')
+            $keyword = $request->keyword;
+            $posts = Post::with('user', 'postComments', 'subCategories')
             ->withCount('likes')
-            ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
+            ->where(function ($query) use ($keyword) {
+                $query->where('post_title', 'like', '%'.$keyword.'%') // タイトルに含まれるか
+                    ->orWhere('post', 'like', '%'.$keyword.'%')     // 投稿本文に含まれるか
+                    ->orWhereHas('subCategories', function($q) use ($keyword) {
+                            $q->where('sub_category', $keyword);       // サブカテゴリ名が完全一致
+                        });
+            })->get();
+
+        // ②サブカテゴリを押下した場合（完全一致）
         }else if($request->category_word){
             $sub_category = $request->category_word;
-            $posts = Post::with('user', 'postComments')->withCount('likes')->get();
+            $posts = Post::with('user', 'postComments', 'subCategories')
+            ->withCount('likes')
+            ->whereHas('subCategories', function($q) use ($sub_category) {
+                $q->where('sub_category', $sub_category); // サブカテゴリが一致する投稿のみ
+            })->get();
+
+        // ③「いいねした投稿」を押下した場合（投稿IDが「いいね済み」の投稿だけ）
         }else if($request->like_posts){
             $likes = Auth::user()->likePostId()->get('like_post_id');
-            $posts = Post::with('user', 'postComments')
+            $posts = Post::with('user', 'postComments', 'subCategories')
             ->withCount('likes')
             ->whereIn('id', $likes)->get();
+
+        // ④「自分の投稿」を押下した場合
         }else if($request->my_posts){
-            $posts = Post::with('user', 'postComments')
+            $posts = Post::with('user', 'postComments', 'subCategories')
             ->withCount('likes')
             ->where('user_id', Auth::id())->get();
         }
 
-        // 各投稿のコメント数を取得して繰り返す
+        // 各投稿のコメント数を取得して繰り返す(ビューに表示させるため)
         foreach ($posts as $post) {
             $post->comment_count = $post->commentCounts($post->id)->count();
         }
@@ -65,6 +84,11 @@ class PostsController extends Controller
             'user_id' => Auth::id(),
             'post_title' => $request->post_title,
             'post' => $request->post_body
+        ]);
+        // 中間テーブルにサブカテゴリを保存
+        PostSubCategory::create([
+            'post_id' => $post->id,
+            'sub_category_id' => $request->post_category_id,
         ]);
         return redirect()->route('post.show');
     }
