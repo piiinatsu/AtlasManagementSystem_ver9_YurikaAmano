@@ -92,9 +92,12 @@
           </div>
           <div class="selected_engineer">
             <label>選択科目</label>
-            <span>国語</span><input type="radio" name="subject" value="1" form="userSearchRequest">
-            <span>数学</span><input type="radio" name="subject" value="2" form="userSearchRequest">
-            <span>英語</span><input type="radio" name="subject" value="3" form="userSearchRequest">
+            <span>国語</span>
+            <input type="checkbox" name="subjects[]" value="1" form="userSearchRequest">
+            <span>数学</span>
+            <input type="checkbox" name="subjects[]" value="2" form="userSearchRequest">
+            <span>英語</span>
+            <input type="checkbox" name="subjects[]" value="3" form="userSearchRequest">
           </div>
         </div>
       </div>
