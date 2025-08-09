@@ -98,6 +98,7 @@
             <input type="checkbox" name="subjects[]" value="2" form="userSearchRequest">
             <span>英語</span>
             <input type="checkbox" name="subjects[]" value="3" form="userSearchRequest">
+            <!-- このinputはid="userSearchRequest"のフォームに送るという意味 -->
           </div>
         </div>
       </div>

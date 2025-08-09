@@ -23,6 +23,7 @@ class UsersController extends Controller
         $subjects = $request->input('subjects');// ここで検索時の科目を受け取る(name="subjects[]を、input('subjects')で受け取る)
         $userFactory = new SearchResultFactories();
         $users = $userFactory->initializeUsers($keyword, $category, $updown, $gender, $role, $subjects);
+        // initializeUsers()が条件を見て、どの検索班に頼むか決める。そしてその班のresultUsers()を呼んで、結果（$users）を受け取る。
         $users->load('subjects'); // ユーザー一覧に対する選択科目の情報を一括で読み込む
         $subjects = Subjects::all();
         return view('authenticated.users.search', compact('users', 'subjects'));
