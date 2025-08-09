@@ -35,4 +35,26 @@ class CalendarController extends Controller
         }
         return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
     }
+
+    public function delete(Request $request)
+    {
+        $key = $request->delete_date;
+
+        // キャンセルしたい日付と同じ予約日付、かつ「自分の予約枠」だけ取得
+        $setting = ReserveSettings::where('setting_reserve', $key)
+            ->whereHas('users', function ($q) {
+                $q->where('users.id', Auth::id());
+            })
+            ->firstOrFail();
+
+        // 予約解除（中間テーブルから自分を外す）
+        $setting->users()->detach(Auth::id());
+
+        // 定員がnullでなければ1戻す
+        if (!is_null($setting->limit_users)) {
+            $setting->increment('limit_users');
+        }
+
+        return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
+    }
 }
