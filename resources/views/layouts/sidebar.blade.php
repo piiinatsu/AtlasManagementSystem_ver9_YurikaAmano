@@ -20,9 +20,24 @@
     <body class="all_content">
         <div class="d-flex">
             <div class="sidebar">
-                <p><a href="{{ route('top.show') }}">トップ</a></p>
-                <p><a href="/logout">ログアウト</a></p>
-                <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
+                <p>
+                    <a href="{{ route('top.show') }}">
+                        <img src="{{ asset('image/home.png') }}" alt="ホーム" width="20" height="20" class="me-2 align-middle">
+                        マイページ
+                    </a>
+                </p>
+                <p>
+                    <a href="/logout">
+                        <img src="{{ asset('image/logout.png') }}" alt="ログアウト" width="20" height="20" class="me-2 align-middle">
+                        ログアウト
+                    </a>
+                </p>
+                <p>
+                    <a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">
+                        <img src="{{ asset('image/yoyaku.png') }}" alt="スクール予約" width="20" height="20" class="me-2 align-middle">
+                        スクール予約
+                    </a>
+                </p>
 
                 {{-- 講師のみ表示（role = 1, 2, 3） --}}
                 @php
@@ -30,12 +45,30 @@
                 @endphp
 
                 @if (in_array($role, [1, 2, 3]))
-                    <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">スクール予約確認</a></p>
-                    <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">スクール枠登録</a></p>
+                    <p>
+                        <a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">
+                            <img src="{{ asset('image/yoyakukakunin.png') }}" alt="スクール予約確認" width="20" height="20" class="me-2 align-middle">
+                            スクール予約確認
+                        </a>
+                    </p>
+                    <p>
+                        <a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">
+                            <img src="{{ asset('image/wakutouroku.png') }}" alt="スクール枠登録" width="20" height="20" class="me-2 align-middle">
+                            スクール枠登録</a></p>
                 @endif
 
-                <p><a href="{{ route('post.show') }}">掲示板</a></p>
-                <p><a href="{{ route('user.show') }}">ユーザー検索</a></p>
+                <p>
+                    <a href="{{ route('post.show') }}">
+                        <img src="{{ asset('image/keijiban.png') }}" alt="掲示板" width="20" height="20" class="me-2 align-middle">
+                        掲示板
+                    </a>
+                </p>
+                <p>
+                    <a href="{{ route('user.show') }}">
+                        <img src="{{ asset('image/user.png') }}" alt="ユーザー検索" width="20" height="20" class="me-2 align-middle">
+                        ユーザー検索
+                    </a>
+                </p>
             </div>
             <div class="main-container">
                 {{ $slot }}
