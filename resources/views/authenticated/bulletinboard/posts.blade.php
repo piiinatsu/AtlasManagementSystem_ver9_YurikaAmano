@@ -49,7 +49,11 @@
       <input type="submit" name="my_posts" class="category_btn" value="自分の投稿" form="postSearchRequest">
       <ul>
         @foreach($categories as $category)
-        <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}</span>
+        <li class="main_categories" category_id="{{ $category->id }}">
+            <span>
+              {{ $category->main_category }}
+              <span class="arrow">&#x2227;</span>
+            </span>
           <ul>
             @foreach($category->subCategories as $sub_category)
               <li>

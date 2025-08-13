@@ -78,5 +78,6 @@
         <script src="{{ asset('js/bulletin.js') }}" rel="stylesheet"></script>
         <script src="{{ asset('js/user_search.js') }}" rel="stylesheet"></script>
         <script src="{{ asset('js/calendar.js') }}" rel="stylesheet"></script>
+        <script src="{{ asset('js/category-toggle.js') }}" rel="stylesheet"></script>
     </body>
 </html>
