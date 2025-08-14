@@ -40,6 +40,9 @@
     <div class="category_area mt-5 p-5">
       <!-- メインカテゴリー追加 -->
       <form action="{{ route('main.category.create') }}" method="post">{{ csrf_field() }}
+        @error('main_category_name')
+          <span class="error_message">{{ $message }}</span>
+        @enderror
         <div class="">
           <p class="m-0">メインカテゴリー</p>
           <input type="text" class="w-100" name="main_category_name">
@@ -48,6 +51,9 @@
       </form>
       <!-- サブカテゴリー追加 -->
       <form action="{{ route('sub.category.create') }}" method="post">{{ csrf_field() }}
+        @error('sub_category')
+          <span class="error_message">{{ $message }}</span>
+        @enderror
         <div class="">
           <p class="m-0">サブカテゴリー</p>
           <select name="main_category_id" class="w-100">
@@ -59,16 +65,6 @@
           <input type="submit" value="追加" class="w-100 btn btn-primary p-0">
         </div>
       </form>
-      <!-- エラーメッセージ -->
-      @if ($errors->any())
-        <div class="alert alert-danger mt-3">
-          <ul class="pl-3 mb-0">
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
-      @endif
     </div>
   </div>
   @endcan
