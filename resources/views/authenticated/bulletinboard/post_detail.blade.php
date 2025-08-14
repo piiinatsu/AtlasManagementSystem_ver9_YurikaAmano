@@ -9,38 +9,43 @@
           <div>
             <!-- 自分の投稿にだけ表示 -->
             @if(Auth::id() === $post->user_id)
-              <span class="edit-modal-open"
+              <span class="edit-modal-open btn btn-primary"
                 post_title="{{ $post->post_title }}"
                 post_body="{{ $post->post }}"
                 post_id="{{ $post->id }}">編集</span>
               <!-- ボタン：削除モーダル（確認してから消す） -->
-              <span class="delete-modal-open text-primary"
+              <span class="delete-modal-open btn btn-danger"
                 data-id="{{ $post->id }}">削除</span>
                 <!-- 削除する投稿IDをJavaScriptに渡す -->
             @endif
           </div>
         </div>
 
-        <div class="contributor d-flex">
+        <div class="contributor">
           <!-- エラーメッセージの表示 -->
-          @if ($errors->any())
-            <div class="alert alert-danger mb-2">
-              <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-          @endif
-          <br>
-          <p>
-            <span>{{ $post->user->over_name }}</span>
-            <span>{{ $post->user->under_name }}</span>
-            さん
-          </p>
-          <span class="ml-5">{{ $post->created_at }}</span>
+          <div>
+            @error('post_title')
+              <span class="error_message">{{ $message }}</span>
+            @enderror
+            @error('post_body')
+              <span class="error_message">{{ $message }}</span>
+            @enderror
+          </div>
+          <div>
+            @if($post->subCategories)
+            <button class="category_btn">{{ $post->subCategories->sub_category }}</button>
+            @endif
+          </div>
+          <div class="mt-3">
+            <p>
+              <span>{{ $post->user->over_name }}</span>
+              <span>{{ $post->user->under_name }}</span>
+              さん
+            </p>
+          </div>
+          <span class="">{{ $post->created_at }}</span>
         </div>
-        <div class="detsail_post_title">{{ $post->post_title }}</div>
+        <div class="mt-3 detsail_post_title">{{ $post->post_title }}</div>
         <div class="mt-3 detsail_post">{{ $post->post }}</div>
       </div>
       <div class="p-3">
@@ -62,6 +67,9 @@
   <div class="w-50 p-3">
     <div class="comment_container border m-5">
       <div class="comment_area p-3">
+        @error('comment')
+          <span class="error_message">{{ $message }}</span>
+        @enderror
         <p class="m-0">コメントする</p>
         <textarea class="w-100" name="comment" form="commentRequest"></textarea>
         <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
