@@ -1,7 +1,6 @@
 <x-sidebar>
 <div class="board_area w-100 border m-auto d-flex">
   <div class="post_view w-75 mt-5">
-    <p class="w-75 m-auto">投稿一覧</p>
     @foreach($posts as $post)
     <div class="post_area border w-75 m-auto p-3">
       <!-- 投稿者名前 -->
@@ -40,9 +39,9 @@
     @endforeach
   </div>
   <div class="other_area border w-25">
-    <div class="border m-4">
+    <div class="m-4">
       <!-- 投稿ボタン -->
-      <div class="mb-3">
+      <div class="mb-3 mt-5">
         <a href="{{ route('post.input') }}" class="btn btn-cyan text-white py-2 btn-block">投稿</a>
       </div>
       <!-- キーワードの入力検索 -->
@@ -78,6 +77,10 @@
         </div>
       </div>
 
+      <!-- カテゴリー検索 -->
+      <div class="mb-3">
+        <p class="text-muted font-weight-bold">カテゴリー検索</p>
+      </div>
       <!-- カテゴリー検索 -->
       <ul class="list-unstyled m-0">
         @foreach($categories as $category)

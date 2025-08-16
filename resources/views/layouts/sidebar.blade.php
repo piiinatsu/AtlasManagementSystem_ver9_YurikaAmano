@@ -20,7 +20,7 @@
     <body class="all_content">
         <div class="d-flex">
             <div class="sidebar">
-                <p>
+                <p class="mt-4">
                     <a href="{{ route('top.show') }}">
                         <img src="{{ asset('image/home.png') }}" alt="ホーム" width="20" height="20" class="me-2 align-middle">
                         マイページ
