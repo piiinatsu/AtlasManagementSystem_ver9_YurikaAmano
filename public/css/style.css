@@ -18,7 +18,7 @@ li {
 
 /* サイドバー */
 .sidebar {
-  width: 150px;
+  width: 180px;
   height: 100vh;
   background-color: #03AAD2;
   font-weight: bold;
@@ -231,7 +231,7 @@ li {
   border-radius: 5px;
   padding: 0 5px;
   border: none;
-  background: #999;
+  background: #03AAD2;
   color: #FFF;
 }
 
@@ -240,6 +240,27 @@ li {
   list-style: none;
   cursor: pointer;
 }
+
+.main_categories ul {
+  display: none;
+}
+
+i {
+  color: #999; /* 薄めのグレー */
+}
+
+.btn-cyan {
+  background-color:#03AAD2; border-color:#03AAD2;
+}
+
+.btn-pink {
+  background-color:#E889A7; border-color:#E889A7;
+}
+
+.btn-amber {
+  background-color:#F0B84B; border-color:#F0B84B; color:#fff;
+}
+
 
 /* ユーザー検索 */
 .reserve_users_area {
