@@ -1,6 +1,6 @@
 <x-sidebar>
 <div class="board_area w-100 border m-auto d-flex">
-  <div class="post_view w-75 mt-5">
+  <div class="post_view w-75 mt-5 mb-5">
     @foreach($posts as $post)
     <div class="post_area border w-75 m-auto p-3">
       <!-- 投稿者名前 -->
