@@ -28,8 +28,8 @@ class CalendarView{
     $html[] = '<th>水</th>';
     $html[] = '<th>木</th>';
     $html[] = '<th>金</th>';
-    $html[] = '<th>土</th>';
-    $html[] = '<th>日</th>';
+    $html[] = '<th class="text-primary">土</th>';
+    $html[] = '<th class="text-danger">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -54,7 +54,7 @@ class CalendarView{
         // 背景色(当月1日〜当日までかを確認する)
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
           // 当月過去日 → 薄いグレー
-          $html[] = '<td class="calendar-td bg-light">';
+          $html[] = '<td class="calendar-td '.$day->getClassName().' bg-light">';
         }else{
           if ($isOtherMonth) {
             // 前後月の日 → 濃いグレー
