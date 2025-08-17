@@ -5,5 +5,6 @@ $(function () {
 
   $('.subject_edit_btn').click(function () {
     $('.subject_inner').slideToggle();
+    $(this).find('.arrow i').toggleClass('fa-angle-down fa-angle-up');
   });
 });

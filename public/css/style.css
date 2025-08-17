@@ -258,7 +258,7 @@ li {
 }
 
 i {
-  color: #999; /* 薄めのグレー */
+  color: #999;
 }
 
 .btn-cyan {
@@ -313,4 +313,14 @@ i {
 
 .subject_inner {
   display: none;
+}
+
+.subject_edit_btn,
+.subject_edit_btn .arrow i {
+  color: #03AAD2;
+}
+
+.subject_edit_btn span{
+  font-size: 1rem;      /* p と同じ */
+  line-height: 1.5;
 }
