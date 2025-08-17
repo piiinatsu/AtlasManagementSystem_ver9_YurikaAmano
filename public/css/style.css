@@ -79,6 +79,19 @@ li {
   width: 70%;
 }
 
+.table .thead-custom th {
+  background-color: #03AAD2;
+  color: #fff;
+  border-color: #03AAD2;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #eaf8fc;
+}
+
 /* モーダル */
 .modal {
   display: none;

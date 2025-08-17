@@ -2,14 +2,16 @@
 <div class="vh-100 d-flex" style="align-items:center; justify-content:center;">
   <div class="w-50 m-auto h-75">
     <p><span>{{ $date }}日</span><span class="ml-3">{{ $part }}部</span></p>
-    <div class="h-75 border">
-      <table class="">
-        <tr class="text-center">
-          <th class="w-25">ID</th>
-          <th class="w-25">名前</th>
-          <th class="w-25">場所</th>
-        </tr>
-        <tr class="text-center">
+    <div class="h-75">
+      <table class="table table-striped  text-center">
+        <thead class="thead-custom">
+          <tr class="text-center">
+            <th class="w-25 text-white">ID</th>
+            <th class="w-25 text-white">名前</th>
+            <th class="w-25 text-white">場所</th>
+          </tr>
+        </thead>
+        <tbody>
           <!-- 各予約枠のユーザーの人数を取り出して、全部足し算した結果を$totalに入れる -->
           @php
             $total = $reservePersons->sum(function ($setting) {
@@ -31,7 +33,7 @@
             @endforeach
           @endif
           <!-- 各予約枠→各予約者 -->
-        </tr>
+        </tbody>
       </table>
     </div>
   </div>
