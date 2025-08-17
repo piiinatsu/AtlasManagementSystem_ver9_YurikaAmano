@@ -1,59 +1,62 @@
 <x-sidebar>
-<p>ユーザー検索</p>
-<div class="search_content w-100 border d-flex">
-  <div class="reserve_users_area">
-    @foreach($users as $user)
-    <div class="border one_person">
-      <div>
-        <span>ID : </span><span>{{ $user->id }}</span>
+<div class="search_content w-100 border d-flex min-vh-100">
+  <div class="reserve_users_area container-fluid py-3">
+    <div class="row">
+      @foreach($users as $user)
+      <div class="col-12 col-sm-6 col-lg-3 mb-4 d-flex">
+        <div class="one_person w-100 rounded shadow-sm p-3 h-100 bg-white border border-light">
+          <div>
+            <span>ID : </span><span class="font-weight-bold">{{ $user->id }}</span>
+          </div>
+          <div><span>名前 : </span>
+            <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="font-weight-bold text-primary">
+              <span>{{ $user->over_name }}</span>
+              <span>{{ $user->under_name }}</span>
+            </a>
+          </div>
+          <div>
+            <span>カナ : </span>
+            <span class="font-weight-bold">({{ $user->over_name_kana }}</span>
+            <span class="font-weight-bold">{{ $user->under_name_kana }})</span>
+          </div>
+          <div>
+            @if($user->sex == 1)
+            <span>性別 : </span><span class="font-weight-bold">男</span>
+            @elseif($user->sex == 2)
+            <span>性別 : </span><span class="font-weight-bold">女</span>
+            @else
+            <span>性別 : </span><span class="font-weight-bold">その他</span>
+            @endif
+          </div>
+          <div>
+            <span>生年月日 : </span><span class="font-weight-bold">{{ $user->birth_day }}</span>
+          </div>
+          <div>
+            @if($user->role == 1)
+            <span>役職 : </span><span class="font-weight-bold">教師(国語)</span>
+            @elseif($user->role == 2)
+            <span>役職 : </span><span class="font-weight-bold">教師(数学)</span>
+            @elseif($user->role == 3)
+            <span>役職 : </span><span class="font-weight-bold">講師(英語)</span>
+            @else
+            <span>役職 : </span><span class="font-weight-bold">生徒</span>
+            @endif
+          </div>
+          <div>
+            @if($user->role == 4)
+              <span>選択科目 :</span>
+              <span class="font-weight-bold">
+                {{ $user->subjects->pluck('subject')->join('、') ?: '未登録' }}
+              </span>
+            @endif
+          </div>
+        </div>
       </div>
-      <div><span>名前 : </span>
-        <a href="{{ route('user.profile', ['id' => $user->id]) }}">
-          <span>{{ $user->over_name }}</span>
-          <span>{{ $user->under_name }}</span>
-        </a>
-      </div>
-      <div>
-        <span>カナ : </span>
-        <span>({{ $user->over_name_kana }}</span>
-        <span>{{ $user->under_name_kana }})</span>
-      </div>
-      <div>
-        @if($user->sex == 1)
-        <span>性別 : </span><span>男</span>
-        @elseif($user->sex == 2)
-        <span>性別 : </span><span>女</span>
-        @else
-        <span>性別 : </span><span>その他</span>
-        @endif
-      </div>
-      <div>
-        <span>生年月日 : </span><span>{{ $user->birth_day }}</span>
-      </div>
-      <div>
-        @if($user->role == 1)
-        <span>権限 : </span><span>教師(国語)</span>
-        @elseif($user->role == 2)
-        <span>権限 : </span><span>教師(数学)</span>
-        @elseif($user->role == 3)
-        <span>権限 : </span><span>講師(英語)</span>
-        @else
-        <span>権限 : </span><span>生徒</span>
-        @endif
-      </div>
-      <div>
-        @if($user->role == 4)
-          <span>選択科目 :</span>
-          <span>
-            {{ $user->subjects->pluck('subject')->join('、') ?: '未登録' }}
-          </span>
-        @endif
-      </div>
+      @endforeach
     </div>
-    @endforeach
   </div>
   <div class="search_area w-25 border">
-    <div class="">
+    <div class="mt-3">
       <div>
         <input type="text" class="free_word" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
       </div>
