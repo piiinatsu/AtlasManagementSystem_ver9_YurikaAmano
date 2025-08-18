@@ -16,6 +16,15 @@ li {
   list-style: none;
 }
 
+/* 登録 */
+.old_year,
+.old_month,
+.old_day {
+  border: none;
+  outline: none;
+  width: 85px;
+}
+
 /* サイドバー */
 .sidebar {
   width: 180px;
