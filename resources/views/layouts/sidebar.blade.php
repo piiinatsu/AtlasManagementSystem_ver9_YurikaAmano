@@ -19,7 +19,7 @@
     </head>
     <body class="all_content">
         <div class="d-flex">
-            <div class="sidebar">
+            <div class="sidebar min-vh-100">
                 <p class="mt-4">
                     <a href="{{ route('top.show') }}">
                         <img src="{{ asset('image/home.png') }}" alt="ホーム" width="20" height="20" class="me-2 align-middle">
@@ -70,7 +70,7 @@
                     </a>
                 </p>
             </div>
-            <div class="main-container">
+            <div class="main-container min-vh-100">
                 {{ $slot }}
             </div>
         </div>

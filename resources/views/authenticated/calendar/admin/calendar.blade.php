@@ -1,5 +1,5 @@
 <x-sidebar>
-<div class="pt-5" style="background:#ECF1F6;">
+<div class="min-vh-100 pt-5" style="background:#ECF1F6;">
   <div class="border w-75 m-auto pt-5 pb-5" style="border-radius:5px; background:#FFF;">
     <p class="text-center">{{ $calendar->getTitle() }}</p>
     <div class="w-75 m-auto border border-top-0" style="border-radius:5px;">
