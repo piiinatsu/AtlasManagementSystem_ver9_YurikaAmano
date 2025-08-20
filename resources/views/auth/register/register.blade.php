@@ -1,8 +1,8 @@
 <x-guest-layout>
-  <form action="{{ route('registerPost') }}" method="POST">
+  <div class="d-flex flex-column align-items-center justify-content-center min-vh-100" style="background:#EEF2F7;">
+  <form action="{{ route('registerPost') }}" method="POST" class="bg-white rounded shadow p-4">
     {{ csrf_field() }}
-    <div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;">
-      <div class="w-25 vh-75 border p-3">
+      <div class="w-100  bg-white">
         <div class="register_form">
           <div class="d-flex mt-3" style="justify-content:space-between">
             <div class="" style="width:140px">
@@ -224,7 +224,6 @@
           <a href="{{ route('login') }}">ログインはこちら</a>
         </div>
       </div>
-    </div>
   </form>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
